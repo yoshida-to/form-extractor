@@ -2,7 +2,7 @@ const { app } = require('@azure/functions');
 const { Readable } = require('stream');
 const { createModelFromSchema, DocumentAnalysisClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 const { BlobServiceClient } = require('@azure/storage-blob');
-const { convert } = require('iconv-lite');
+const { encode } = require('iconv-lite');
 
 const DOCUMENT_INTELLIGENCE_ENDPOINT = 'https://form-extractor-document-intelligence.cognitiveservices.azure.com/';
 const OUTPUT_CONTAINER_NAME = 'output-file';
