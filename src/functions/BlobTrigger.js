@@ -2,6 +2,7 @@ const { app } = require('@azure/functions');
 const { Readable } = require('stream');
 const { createModelFromSchema, DocumentAnalysisClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 const { BlobServiceClient } = require('@azure/storage-blob');
+const { convert } = require('iconv-lite');
 
 const DOCUMENT_INTELLIGENCE_ENDPOINT = 'https://form-extractor-document-intelligence.cognitiveservices.azure.com/';
 const OUTPUT_CONTAINER_NAME = 'output-file';
@@ -73,7 +74,8 @@ app.storageBlob('BlobTrigger', {
             const tableNumber = i + 1;
             const blobName = `${fileName}_table${tableNumber}.csv`;
             const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-            await blockBlobClient.upload(tableCsvContents[i], tableCsvContents[i].length);
+            const SJIScontent = encode(tableCsvContents[i], 'SJIS')
+            await blockBlobClient.upload(SJIScontent, SJIScontent.length);
         }
     }
 });
